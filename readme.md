@@ -8,6 +8,10 @@ Assumes bsd-mailx
 
 python parse_cal.py -u 'https://feed' -d 15 | mail -E -s "Events for the next 15 day" somebody@example.com
 
+## Requirements
+
+* Python
+* python-icalendar 
 
 ## Author
 
