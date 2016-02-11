@@ -51,15 +51,23 @@ def main():
 	#gcal = Calendar.from_ical(g.read())
 	gcal = Calendar.from_ical(response.read())
  
-	present = datetime.datetime.now()
+	present = datetime.date.today()
 	localtz = pytz.timezone('Europe/London')
  
 	d = datetime.timedelta(days)
 
 	for component in gcal.walk():
 		if component.name == "VEVENT":
-	      		if (component.get('dtend')).dt >= localtz.localize(present):
-				if (component.get('dtstart')).dt >= localtz.localize(present) and (component.get('dtstart')).dt < localtz.localize(present + d):
+			dtstart = component.get('dtstart').dt
+			dtend = component.get('dtend').dt
+
+			if isinstance(dtstart, datetime.datetime):
+				dtstart = dtstart.date()
+			if isinstance(dtend, datetime.datetime):
+				dtend = dtend.date()
+
+	      		if dtend >= present:
+				if dtstart >= present and dtstart <= present + d:
 					print " * " + component.get('summary')
 					print " \t " +str((component.get('dtstart')).dt.strftime("%Y-%m-%d %H:%M")) + " - " + str((component.get('dtend')).dt.strftime("%Y-%m-%d %H:%M"))
       					if component.get('location') != None:
