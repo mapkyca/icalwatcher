@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # Needs python-icalendar
 
 from icalendar import Calendar, Event
